@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wallet.findMoneyApp.model.po.CreditProductMapper" >
+  <resultMap id="BaseResultMap" type="com.wallet.findMoneyApp.model.po.CreditProduct" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="credit_name" property="creditName" jdbcType="VARCHAR" />
+    <result column="slogan" property="slogan" jdbcType="VARCHAR" />
+    <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+    <result column="min_amount" property="minAmount" jdbcType="VARCHAR" />
+    <result column="max_amount" property="maxAmount" jdbcType="VARCHAR" />
+    <result column="amount_unit" property="amountUnit" jdbcType="VARCHAR" />
+    <result column="rate" property="rate" jdbcType="VARCHAR" />
+    <result column="c_order" property="cOrder" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="entry_type" property="entryType" jdbcType="VARCHAR" />
+    <result column="excellent" property="excellent" jdbcType="VARCHAR" />
+    <result column="well_received" property="wellReceived" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operator_name" property="operatorName" jdbcType="VARCHAR" />
+    <result column="customer_service_tel" property="customerServiceTel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, credit_name, slogan, icon_url, min_amount, max_amount, amount_unit, rate, c_order, 
+    status, entry_type, excellent, well_received, create_time, update_time, operator_id, 
+    operator_name, customer_service_tel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.wallet.findMoneyApp.model.po.CreditProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from credit_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from credit_product
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from credit_product
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.wallet.findMoneyApp.model.po.CreditProductExample" >
+    delete from credit_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.wallet.findMoneyApp.model.po.CreditProduct" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into credit_product (credit_name, slogan, icon_url, 
+      min_amount, max_amount, amount_unit, 
+      rate, c_order, status, 
+      entry_type, excellent, well_received, 
+      create_time, update_time, operator_id, 
+      operator_name, customer_service_tel)
+    values (#{creditName,jdbcType=VARCHAR}, #{slogan,jdbcType=VARCHAR}, #{iconUrl,jdbcType=VARCHAR}, 
+      #{minAmount,jdbcType=VARCHAR}, #{maxAmount,jdbcType=VARCHAR}, #{amountUnit,jdbcType=VARCHAR}, 
+      #{rate,jdbcType=VARCHAR}, #{cOrder,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
+      #{entryType,jdbcType=VARCHAR}, #{excellent,jdbcType=VARCHAR}, #{wellReceived,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{operatorId,jdbcType=VARCHAR}, 
+      #{operatorName,jdbcType=VARCHAR}, #{customerServiceTel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wallet.findMoneyApp.model.po.CreditProduct" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into credit_product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="creditName != null" >
+        credit_name,
+      </if>
+      <if test="slogan != null" >
+        slogan,
+      </if>
+      <if test="iconUrl != null" >
+        icon_url,
+      </if>
+      <if test="minAmount != null" >
+        min_amount,
+      </if>
+      <if test="maxAmount != null" >
+        max_amount,
+      </if>
+      <if test="amountUnit != null" >
+        amount_unit,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="cOrder != null" >
+        c_order,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="entryType != null" >
+        entry_type,
+      </if>
+      <if test="excellent != null" >
+        excellent,
+      </if>
+      <if test="wellReceived != null" >
+        well_received,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="operatorName != null" >
+        operator_name,
+      </if>
+      <if test="customerServiceTel != null" >
+        customer_service_tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="creditName != null" >
+        #{creditName,jdbcType=VARCHAR},
+      </if>
+      <if test="slogan != null" >
+        #{slogan,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="minAmount != null" >
+        #{minAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="maxAmount != null" >
+        #{maxAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="amountUnit != null" >
+        #{amountUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=VARCHAR},
+      </if>
+      <if test="cOrder != null" >
+        #{cOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="entryType != null" >
+        #{entryType,jdbcType=VARCHAR},
+      </if>
+      <if test="excellent != null" >
+        #{excellent,jdbcType=VARCHAR},
+      </if>
+      <if test="wellReceived != null" >
+        #{wellReceived,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerServiceTel != null" >
+        #{customerServiceTel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.wallet.findMoneyApp.model.po.CreditProductExample" resultType="java.lang.Integer" >
+    select count(*) from credit_product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update credit_product
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.creditName != null" >
+        credit_name = #{record.creditName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.slogan != null" >
+        slogan = #{record.slogan,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iconUrl != null" >
+        icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.minAmount != null" >
+        min_amount = #{record.minAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxAmount != null" >
+        max_amount = #{record.maxAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amountUnit != null" >
+        amount_unit = #{record.amountUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rate != null" >
+        rate = #{record.rate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cOrder != null" >
+        c_order = #{record.cOrder,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entryType != null" >
+        entry_type = #{record.entryType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.excellent != null" >
+        excellent = #{record.excellent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wellReceived != null" >
+        well_received = #{record.wellReceived,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operatorId != null" >
+        operator_id = #{record.operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorName != null" >
+        operator_name = #{record.operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerServiceTel != null" >
+        customer_service_tel = #{record.customerServiceTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update credit_product
+    set id = #{record.id,jdbcType=BIGINT},
+      credit_name = #{record.creditName,jdbcType=VARCHAR},
+      slogan = #{record.slogan,jdbcType=VARCHAR},
+      icon_url = #{record.iconUrl,jdbcType=VARCHAR},
+      min_amount = #{record.minAmount,jdbcType=VARCHAR},
+      max_amount = #{record.maxAmount,jdbcType=VARCHAR},
+      amount_unit = #{record.amountUnit,jdbcType=VARCHAR},
+      rate = #{record.rate,jdbcType=VARCHAR},
+      c_order = #{record.cOrder,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
+      entry_type = #{record.entryType,jdbcType=VARCHAR},
+      excellent = #{record.excellent,jdbcType=VARCHAR},
+      well_received = #{record.wellReceived,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      operator_id = #{record.operatorId,jdbcType=VARCHAR},
+      operator_name = #{record.operatorName,jdbcType=VARCHAR},
+      customer_service_tel = #{record.customerServiceTel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wallet.findMoneyApp.model.po.CreditProduct" >
+    update credit_product
+    <set >
+      <if test="creditName != null" >
+        credit_name = #{creditName,jdbcType=VARCHAR},
+      </if>
+      <if test="slogan != null" >
+        slogan = #{slogan,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="minAmount != null" >
+        min_amount = #{minAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="maxAmount != null" >
+        max_amount = #{maxAmount,jdbcType=VARCHAR},
+      </if>
+      <if test="amountUnit != null" >
+        amount_unit = #{amountUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=VARCHAR},
+      </if>
+      <if test="cOrder != null" >
+        c_order = #{cOrder,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="entryType != null" >
+        entry_type = #{entryType,jdbcType=VARCHAR},
+      </if>
+      <if test="excellent != null" >
+        excellent = #{excellent,jdbcType=VARCHAR},
+      </if>
+      <if test="wellReceived != null" >
+        well_received = #{wellReceived,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorName != null" >
+        operator_name = #{operatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerServiceTel != null" >
+        customer_service_tel = #{customerServiceTel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wallet.findMoneyApp.model.po.CreditProduct" >
+    update credit_product
+    set credit_name = #{creditName,jdbcType=VARCHAR},
+      slogan = #{slogan,jdbcType=VARCHAR},
+      icon_url = #{iconUrl,jdbcType=VARCHAR},
+      min_amount = #{minAmount,jdbcType=VARCHAR},
+      max_amount = #{maxAmount,jdbcType=VARCHAR},
+      amount_unit = #{amountUnit,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=VARCHAR},
+      c_order = #{cOrder,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      entry_type = #{entryType,jdbcType=VARCHAR},
+      excellent = #{excellent,jdbcType=VARCHAR},
+      well_received = #{wellReceived,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      operator_id = #{operatorId,jdbcType=VARCHAR},
+      operator_name = #{operatorName,jdbcType=VARCHAR},
+      customer_service_tel = #{customerServiceTel,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

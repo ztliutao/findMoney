@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <classPathEntry location="D:\work\repository\mysql\mysql-connector-java\5.0.4\mysql-connector-java-5.0.4.jar"/>
+
+    <context id="context1" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://47.98.105.205:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false"
+                        userId="testuser"
+                        password="testuser"/>
+
+        <javaModelGenerator targetPackage="com.wallet.findMoneyApp.model.po"
+                            targetProject="D:\work\findMoney-app\src\main\java\"/>
+
+        <sqlMapGenerator targetPackage="mybatis"
+                         targetProject="D:\work\findMoney-app\src\main\resources"/>
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.wallet.findMoneyApp.model.po"
+                             targetProject="D:\work\findMoney-app\src\main\java\">
+        </javaClientGenerator>
+
+        <!--<table tableName="user_info">-->
+        <!--<generatedKey column="ID" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="apply_record">-->
+        <!--<generatedKey column="ID" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="credit_card">-->
+        <!--<generatedKey column="ID" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="credit_product">-->
+        <!--<generatedKey column="ID" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="credit_product_detailed">-->
+        <!--<generatedKey column="ID" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="advert_config">-->
+        <!--<generatedKey column="ID" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table tableName="sys_user">-->
+        <!--<generatedKey column="ID" sqlStatement="mysql" identity="true"/>-->
+        <!--</table>-->
+
+        <table tableName="user_enroll">
+            <generatedKey column="ID" sqlStatement="mysql" identity="true"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

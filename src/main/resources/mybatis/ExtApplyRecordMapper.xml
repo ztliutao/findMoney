@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wallet.findMoneyApp.model.po.ExtApplyRecordMapper">
+    <resultMap id="BaseResultMap" type="com.wallet.findMoneyApp.model.po.ApplyInfoPO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="pid" property="pid" jdbcType="VARCHAR"/>
+        <result column="pname" property="pname" jdbcType="VARCHAR"/>
+        <result column="imgUrl" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="applyTime" property="applyTime" jdbcType="VARCHAR"/>
+        <result column="customServiceTel" property="customServiceTel" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--贷款申请列表-->
+    <select id="getApplyPInfoList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+            r.id AS id,
+            r.apply_product_id AS pid,
+            r.apply_product_id AS pname,
+            p.icon_url AS imgUrl,
+            r.create_time  as applyTime,
+            p.customer_service_tel as customServiceTel
+        FROM
+            apply_record r
+            LEFT JOIN credit_product p ON r.apply_product_id = p.id
+            where  r.user_id=#{userId}
+    </select>
+    <!--信用卡申请列表-->
+    <select id="getApplyLInfoList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+            r.id AS id,
+            r.apply_product_id AS pid,
+            r.apply_product_id AS pname,
+            p.credit_card_image AS imgUrl,
+            r.create_time  as applyTime,
+            p.customer_service_tel as customServiceTel
+        FROM
+            apply_record r
+            LEFT JOIN credit_card p ON r.apply_product_id = p.id
+            where  r.user_id=#{userId}
+    </select>
+
+    <!--查询贷款列表-->
+    <resultMap id="productListMap" type="com.wallet.findMoneyApp.model.po.ExtCreditProductDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="pname" property="pname" jdbcType="VARCHAR"/>
+        <result column="imgUrl" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="rate" property="rate" jdbcType="VARCHAR"/>
+        <result column="rataType" property="rataType" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="min_amount" property="min_amount" jdbcType="VARCHAR"/>
+        <result column="max_amount" property="max_amount" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="productList" parameterType="java.util.Map" resultMap="productListMap">
+        SELECT
+        r.id AS id,
+        r.credit_name AS pname,
+        r.icon_url AS imgUrl,
+        r.rate AS rate,
+        '1' AS rataType,
+        r.slogan AS remark,
+        r.min_amount AS min_amount,
+        r.max_amount as max_amount
+        FROM
+        credit_product r
+        LEFT JOIN credit_product_detailed t ON r.id = t.credit_product_id
+        WHERE
+        <![CDATA[( r.min_amount >= #{minAmount} AND r.max_amount <=#{maxAmount})]]>
+        AND t.apply_flow LIKE '%${type}%'
+        ORDER BY ${orderBy}
+    </select>
+
+
+    <select id="indexProductList" parameterType="java.util.Map" resultMap="productListMap">
+        SELECT
+        r.id AS id,
+        r.credit_name AS pname,
+        r.icon_url AS imgUrl,
+        r.rate AS rate,
+        '1' AS rataType,
+        r.slogan AS remark,
+        r.min_amount AS min_amount,
+        r.max_amount as max_amount
+        FROM
+        credit_product r
+        LEFT JOIN credit_product_detailed t ON r.id = t.credit_product_id
+        WHERE
+
+        r.entry_type=#{entry_type}
+        ORDER BY id
+    </select>
+
+    <!--查询信用卡列表-->
+    <resultMap id="cardProductListMap" type="com.wallet.findMoneyApp.model.po.ExtCardProductDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="imgUrl" property="imgUrl" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <select id="cardProductList" parameterType="java.util.Map" resultMap="cardProductListMap">
+        SELECT
+             r.id as id,
+			 r.apply_page_url as url,
+			 r.apply_suc_count as num,
+			 r.credit_card_name as name,
+			 r.credit_card_image as imgUrl,
+			 '' as reamrk
+        FROM
+        credit_card r
+        LEFT JOIN credit_product_detailed t ON r.id = t.credit_product_id
+				order by r.id
+
+    </select>
+
+    <resultMap id="detailMap" type="com.wallet.findMoneyApp.model.po.ExtProductDetailDTO">
+        <result column="pid" property="pid" jdbcType="VARCHAR"/>
+        <result column="pname" property="pname" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="VARCHAR"/>
+        <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="minAmount" property="minAmount" jdbcType="VARCHAR"/>
+        <result column="maxAmount" property="maxAmount" jdbcType="VARCHAR"/>
+        <result column="minLimit" property="minLimit" jdbcType="VARCHAR"/>
+        <result column="maxLimit" property="maxLimit" jdbcType="VARCHAR"/>
+        <result column="rAmount" property="rAmount" jdbcType="VARCHAR"/>
+        <result column="rType" property="rType" jdbcType="VARCHAR"/>
+        <result column="rate" property="rate" jdbcType="VARCHAR"/>
+        <result column="fastTime" property="fastTime" jdbcType="VARCHAR"/>
+        <result column="fastUnit" property="fastUnit" jdbcType="VARCHAR"/>
+        <result column="io" property="io" jdbcType="VARCHAR"/>
+        <result column="applyRemark" property="applyRemark" jdbcType="VARCHAR"/>
+        <result column="productRemark" property="productRemark" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <select id="detailProductById" resultMap="detailMap" parameterType="java.lang.String">
+        SELECT
+	p.id AS pid,
+	p.credit_name AS pname,
+	p.min_amount AS amount,
+	p.amount_unit AS unit,
+	p.min_amount AS minAmount,
+	p.max_amount AS maxAmount,
+	d.term AS minLimit,
+	d.term AS maxLimit,
+	'' AS rAmount,
+	'' AS rType,
+	p.rate AS rate,
+	d.min_credit_time AS fastTime,
+	'' AS fastUnit,
+	d.apply_flow AS io,
+	apply_aptitude AS applyRemark,
+	product_desc AS productRemark
+FROM
+	credit_product p
+	LEFT JOIN credit_product_detailed d ON p.id = d.credit_product_id where p.id=#{productId}
+    </select>
+</mapper>
